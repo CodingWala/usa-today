@@ -1,0 +1,2 @@
+# Run every day at 08:00 AM IST
+0 8 * * * python -m app.main >> /var/log/cron.log 2>&1

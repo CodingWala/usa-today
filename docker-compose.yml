@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  yahoo-news-scraper:
+    build: .
+    container_name: yahoo_news_scraper
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
