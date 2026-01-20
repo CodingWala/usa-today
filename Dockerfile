@@ -37,5 +37,7 @@ RUN chmod 0644 /etc/cron.d/scraper-cron \
 # Ensure cron log exists
 RUN touch /var/log/cron.log
 
+ENV DATA_DIR=/data
+
 # IMPORTANT: Run cron as ROOT
 CMD ["cron", "-f"]

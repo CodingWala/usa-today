@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from datetime import datetime
 
 @dataclass(frozen=True)
-class TrumpNewsArticle:
+class TrumpNewsRecord:
     title: str
     url: str
-    matched_on: str
+    gist: str
     scraped_at: datetime

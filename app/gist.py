@@ -1,0 +1,41 @@
+import re
+
+TRUMP_KEYWORDS = [
+    "donald trump",
+    "president trump",
+    "former president trump",
+    "trump campaign",
+    "trump administration"
+]
+
+def clean_sentence(text: str) -> str:
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
+
+
+def extract_best_gist(article_text: str) -> str:
+    sentences = re.split(r"(?<=[.!?])\s+", article_text)
+
+    scored = []
+
+    for idx, sentence in enumerate(sentences):
+        s = sentence.lower()
+        score = 0
+
+        # Trump relevance
+        score += sum(2 for k in TRUMP_KEYWORDS if k in s)
+
+        # Early sentences are usually summary
+        if idx < 3:
+            score += 2
+
+        # Penalize very short / long sentences
+        if 20 < len(sentence) < 200:
+            score += 1
+
+        scored.append((score, sentence))
+
+    scored.sort(reverse=True, key=lambda x: x[0])
+
+    best = scored[0][1] if scored else ""
+    return clean_sentence(best)
