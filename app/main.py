@@ -2,7 +2,7 @@ import logging
 import pandas as pd
 from pathlib import Path
 
-from app.scraper import fetch_trending_headlines
+from app.scraper import crawl_trump_news
 
 logging.basicConfig(
     level=logging.INFO,
@@ -10,17 +10,18 @@ logging.basicConfig(
 )
 
 OUTPUT_DIR = Path("/data")
-OUTPUT_FILE = OUTPUT_DIR / "yahoo_trending_news.csv"
+OUTPUT_FILE = OUTPUT_DIR / "trump_related_yahoo_news.csv"
+
 
 def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    headlines = fetch_trending_headlines()
+    articles = crawl_trump_news()
 
-    df = pd.DataFrame([vars(h) for h in headlines])
+    df = pd.DataFrame([vars(a) for a in articles])
     df.to_csv(OUTPUT_FILE, index=False)
 
-    logging.info("Saved headlines to %s", OUTPUT_FILE)
+    logging.info("Saved %d Trump-related articles", len(df))
 
 if __name__ == "__main__":
     main()

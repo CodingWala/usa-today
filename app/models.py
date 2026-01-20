@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from datetime import datetime
 
 @dataclass(frozen=True)
-class NewsHeadline:
+class TrumpNewsArticle:
     title: str
-    source: str
     url: str
+    matched_on: str
     scraped_at: datetime
