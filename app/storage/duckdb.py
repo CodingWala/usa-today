@@ -1,3 +1,41 @@
+import duckdb
+from datetime import datetime
+
+DB_PATH = "data/news.duckdb"
+
+def init_db():
+    with duckdb.connect(DB_PATH) as con:
+        con.execute("""
+        CREATE TABLE IF NOT EXISTS news_articles (
+            url TEXT PRIMARY KEY,
+            title TEXT,
+            content TEXT,
+            gist TEXT,
+            published_at TIMESTAMP,
+            partition_date DATE,
+            ingested_at TIMESTAMP
+        )
+        """)
+
+def store_articles(records):
+    with duckdb.connect(DB_PATH) as con:
+        count = 0
+        for r in records:
+            con.execute("""
+            INSERT OR IGNORE INTO news_articles
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                r["url"],
+                r["title"],
+                r["content"],
+                r["gist"],
+                r["published_at"],
+                r["partition_date"],
+                datetime.utcnow(),
+            ))
+            count += 1
+        return count
+
 from pathlib import Path
 import duckdb
 import logging

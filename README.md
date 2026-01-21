@@ -1,18 +1,23 @@
-Web Analytics/
+app/
+├── main.py                # entry point
+├── pipeline.py            # orchestration
+├── config.py              # env vars only
+├── models.py              # Article dataclass / schema
 │
-├── app/
+├── sources/               # WHERE links come from
+│   ├── base.py
+│   ├── factory.py
+│   ├── yahoo.py
+│   └── newsapi.py
+│
+├── scraper.py             # HOW article body is extracted
+│
+├── nlp/                   # text intelligence
 │   ├── __init__.py
-│   ├── main.py
-│   ├── scraper.py
-│   └── models.py
+│   └── gist.py
 │
-├── data/
-│   └── .gitkeep
+├── storage/               # persistence
+│   ├── __init__.py
+│   └── duckdb.py
 │
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── .dockerignore
-└── README.md
-# usa-today
-This repository tracks the mood of the POTUS everyday
+└── utils/ (optional)
